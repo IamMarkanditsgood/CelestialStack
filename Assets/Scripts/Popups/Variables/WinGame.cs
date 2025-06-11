@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class WinGame : BasicPopup
 {
+    public GamePlayManager PlayManager;
     public TMP_Text score;
 
     public Button restart;
@@ -31,17 +32,25 @@ public class WinGame : BasicPopup
 
     public override void SetPopup()
     {
-        score.text = PlayerPrefs.GetString("Score");
+    }
+
+    public void SetText(int scoreReward)
+    {
+        int newTotalScore = PlayerPrefs.GetInt("MaxScore") + scoreReward;
+        PlayerPrefs.SetInt("MaxScore", newTotalScore);
+        score.text = scoreReward.ToString();
     }
 
     private void Restart()
     {
         Hide();
+        PlayManager.CleanGame();
         UIManager.Instance.ShowScreen(ScreenTypes.Game);
     }
     private void Home()
     {
         Hide();
+        PlayManager.CleanGame();
         UIManager.Instance.ShowScreen(ScreenTypes.Home);
     }
 }

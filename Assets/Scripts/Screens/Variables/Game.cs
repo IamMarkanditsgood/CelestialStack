@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Game : BasicScreen
 {
+    public GamePlayManager gamePlayManager;
     public Button back;
     public Button settings;
 
@@ -24,30 +25,26 @@ public class Game : BasicScreen
     }
     public override void ResetScreen()
     {
-        ClearLevel();
     }
 
     public override void SetScreen()
     {
         score.text = PlayerPrefs.GetInt("Score").ToString();
-        ClearLevel();
         StartGame();
     }
 
-    public void ClearLevel()
-    {
-
-    }
     public void StartGame()
     {
-
+        gamePlayManager.StartGame();
     }
     private void Settings()
     {
+        Time.timeScale = 0;
         UIManager.Instance.ShowPopup(PopupTypes.Settings);
     }
     private void Back()
     {
+        gamePlayManager.CleanGame();
         UIManager.Instance.ShowScreen(ScreenTypes.Home);
     }
 }

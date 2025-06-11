@@ -15,6 +15,11 @@ public class Settings : BasicPopup
     private int vibroState;
     private int sfxState;
 
+    public override void Hide()
+    {
+        base.Hide();
+        Time.timeScale = 1;
+    }
     public override void Subscribe()
     {
         base.Subscribe();
@@ -74,7 +79,7 @@ public class Settings : BasicPopup
 
     private void Music()
     {
-        if (PlayerPrefs.GetInt("Music") == 1)
+        if (musicState == 1)
         {
             musicState = 0;
             music.GetComponent<Image>().sprite = buttonOff;
@@ -88,7 +93,7 @@ public class Settings : BasicPopup
 
     private void Vibro()
     {
-        if (PlayerPrefs.GetInt("Vibro") == 1)
+        if (vibroState == 1)
         {
             vibroState = 0;
             vibro.GetComponent<Image>().sprite = buttonOff;
@@ -102,7 +107,7 @@ public class Settings : BasicPopup
 
     private void Sfx()
     {
-        if (PlayerPrefs.GetInt("Sfx") == 1)
+        if (sfxState == 1)
         {
             sfxState = 0;
             sfx.GetComponent<Image>().sprite = buttonOff;
