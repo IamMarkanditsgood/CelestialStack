@@ -15,6 +15,12 @@ public class GameStart : BasicPopup
 
     public Button goButton;
 
+
+    public override void Hide()
+    {
+        base.Hide();
+        UIManager.Instance.ShowScreen(ScreenTypes.Home);
+    }
     public override void Subscribe()
     {
         base.Subscribe();
@@ -51,8 +57,9 @@ public class GameStart : BasicPopup
 
     private void StartGame()
     {
-        UIManager.Instance.ShowScreen(ScreenTypes.Game);
         Hide();
+        UIManager.Instance.ShowScreen(ScreenTypes.Game);
+        
     }
 
     private void Buster(int index)

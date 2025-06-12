@@ -116,6 +116,13 @@ public class Progres : BasicScreen
         TimeSpan time = TimeSpan.FromSeconds(totalSeconds);
         hours.text = $"{time.Hours:D1}+ \nHOURS";
         days.text = $"{consecutiveDays} DAYS \nIN A ROW";
+
+        string achievekey = "Achieve" + 7;
+        if (consecutiveDays >= 7 && !PlayerPrefs.HasKey(achievekey))
+        {
+
+            PlayerPrefs.SetInt(achievekey, 1);
+        }
     }
 
     public override void ResetScreen()

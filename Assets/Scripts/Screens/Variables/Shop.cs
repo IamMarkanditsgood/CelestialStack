@@ -73,6 +73,7 @@ public class Shop : BasicScreen
             PlayerPrefs.SetInt(key, 1);
         }
 
+        int bought = 0;
         for (int i = 0; i < buyButtons.Length; i++)
         {
             key = "BG" + i;
@@ -80,6 +81,7 @@ public class Shop : BasicScreen
             {
                 buyButtons[i].gameObject.SetActive(false);
                 isBoght[i].gameObject.SetActive(true);
+                bought++;
             }
             else
             {
@@ -87,7 +89,12 @@ public class Shop : BasicScreen
                 isBoght[i].gameObject.SetActive(false);
             }
         }
-
+        string achievekey = "Achieve" + 4;
+        if (bought >= 4 && !PlayerPrefs.HasKey(achievekey))
+        {
+            
+            PlayerPrefs.SetInt(achievekey, 1);
+        }
         for (int i = 0; i < isSelected.Length; i++)
         {
             isSelected[i].SetActive(false);
@@ -106,12 +113,20 @@ public class Shop : BasicScreen
             string key = "BG" + index;
             PlayerPrefs.SetInt(key, 1);
             SetScreen();
+
+            string achievekey = "Achieve" + 5;
+            if (!PlayerPrefs.HasKey(achievekey))
+            {
+
+                PlayerPrefs.SetInt(achievekey, 1);
+            }
         }
     }
 
     private void Select(int index)
     {
-        PlayerPrefs.GetInt("CurrentBG", index);
+        PlayerPrefs.SetInt("CurrentBG", index);
+        SetScreen();
     }
 
     private void Progres()

@@ -1,9 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GamePlayManager : MonoBehaviour
 {
+    public Game game;
+    public Button mainButton;
+    public SpriteRenderer bg;
+    public Sprite[] sprites;
     public Transform[] movableObjects;
     public float sceneMoveDuration = 0.5f;
     public float sceneStepY = 1.0f;
@@ -19,6 +25,8 @@ public class GamePlayManager : MonoBehaviour
     public bool canPress;
     private bool canMove;
     public bool gameStarted;
+
+    private bool canIncreasSpeed = true;
 
     public float speed = 2f;
 
@@ -36,6 +44,13 @@ public class GamePlayManager : MonoBehaviour
         {
             startMovableObjectPos.Add(t.position);
         }
+
+        mainButton.onClick.AddListener(MainButtonPressed);
+    }
+
+    private void OnDestroy()
+    {
+        mainButton.onClick.RemoveListener(MainButtonPressed);
     }
     public void CleanGame()
     {
@@ -44,6 +59,7 @@ public class GamePlayManager : MonoBehaviour
         canPress = false;
         canMove = false;    
         gameStarted = false;
+        canIncreasSpeed = false;
 
         for (int i = 0;i <  movableObjects.Length; i++)
         {
@@ -65,8 +81,10 @@ public class GamePlayManager : MonoBehaviour
         Time.timeScale = 1;
         canPress = true;
         canMove = true;
+        canIncreasSpeed = true;
         gameStarted = true;
 
+        bg.sprite = sprites[PlayerPrefs.GetInt("CurrentBG")];
     }
 
     private void Update()
@@ -79,23 +97,6 @@ public class GamePlayManager : MonoBehaviour
         if (!canMove) return;
 
         MoveSpawnPoint();
-
-        if (!canPress) return;
-
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            bool isPressed = touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved;
-
-            if(isPressed)
-            {
-                StartCoroutine(DropBlock());
-            }
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            StartCoroutine(DropBlock());
-        }
     }
     private void CheckLoseCondition(GameObject block)
     {
@@ -112,9 +113,14 @@ public class GamePlayManager : MonoBehaviour
     {
         Time.timeScale = 0;
 
+
+
+
         int newScore = PlayerPrefs.GetInt("Score");
         newScore += Mathf.RoundToInt(blocks.Count * speed);
         PlayerPrefs.SetInt("Score", newScore);
+        PlayerPrefs.Save();
+        game.SetText();
 
         WinGame winGame = (WinGame) UIManager.Instance.GetPopup(PopupTypes.WinGame);
         winGame.SetText(Mathf.RoundToInt(blocks.Count * speed));
@@ -136,9 +142,14 @@ public class GamePlayManager : MonoBehaviour
         }
     }
 
+    private void MainButtonPressed()
+    {
+        if (!canPress) return;
+        StartCoroutine(DropBlock());
+    }
     private IEnumerator DropBlock()
     {
-        if (speed < 100)
+        if (speed < 100 && canIncreasSpeed)
         {
             speed += 2f;
         }
@@ -153,6 +164,20 @@ public class GamePlayManager : MonoBehaviour
         StartCoroutine(MoveBlocksUp());
         fakePrefab.SetActive(true);
         canPress = true;
+
+        string achievekey = "Achieve" + 0;
+        if (blocks.Count >= 30 && !PlayerPrefs.HasKey(achievekey))
+        {
+
+            PlayerPrefs.SetInt(achievekey, 1);
+        }
+
+
+        achievekey = "Achieve" + 1;
+        if (blocks.Count > 0 && !PlayerPrefs.HasKey(achievekey))
+        {
+            PlayerPrefs.SetInt(achievekey, 1);
+        }
     }
 
     private IEnumerator MoveBlocksUp()
@@ -196,5 +221,85 @@ public class GamePlayManager : MonoBehaviour
         }
 
         canMove = true;
+    }
+
+    public void Freez()
+    {
+        if (blocks.Count == 0) return;
+        int freezes = PlayerPrefs.GetInt("Freez");
+        if (freezes > 0)
+        {
+            freezes--;
+            PlayerPrefs.SetInt("Freez", freezes);
+            game.SetText();
+            StartCoroutine(FreezTime());
+        }
+    }
+
+    private IEnumerator FreezTime()
+    {
+        List<GameObject> freezedBlocks = new List<GameObject>(blocks); 
+
+        foreach (GameObject block in freezedBlocks)
+        {
+            Rigidbody2D rb = block.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.bodyType = RigidbodyType2D.Static; 
+            }
+        }
+
+        yield return new WaitForSeconds(10f);
+
+        foreach (GameObject block in freezedBlocks)
+        {
+            Rigidbody2D rb = block.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.bodyType = RigidbodyType2D.Dynamic;
+            }
+        }
+    }
+    public void SlowMo()
+    {
+        if (blocks.Count == 0) return;
+        int slowmo = PlayerPrefs.GetInt("Slowmo");
+        if (slowmo > 0)
+        {
+            slowmo--;
+            PlayerPrefs.SetInt("Slowmo", slowmo);
+            game.SetText();
+            StartCoroutine(SlowMoTime());
+        }
+    }
+    private IEnumerator SlowMoTime()
+    {
+        canIncreasSpeed = false;    
+        float prevSpeed = speed;
+        speed = 2;
+        yield return new WaitForSeconds(5);
+
+        speed = prevSpeed;
+        canIncreasSpeed = true;
+    }
+    public void Magnet()
+    {
+        if (blocks.Count == 0) return;
+
+        int magnet = PlayerPrefs.GetInt("Magnet");
+        if (magnet > 0)
+        {
+            magnet--;
+            PlayerPrefs.SetInt("Magnet", magnet);
+            game.SetText();
+
+
+            StartCoroutine(DropBlock());
+
+            GameObject lastBlock = blocks[blocks.Count - 1];
+            GameObject preLastBlock = blocks[blocks.Count - 2];
+            lastBlock.transform.position = preLastBlock.GetComponent<BlockController>().upPoint.position;
+
+        }
     }
 }
