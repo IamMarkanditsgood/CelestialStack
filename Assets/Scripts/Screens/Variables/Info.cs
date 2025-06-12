@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Info : BasicScreen
 {
+    public AudioSource audioSource;
     public Button back;
 
     private void Start()
@@ -26,6 +27,8 @@ public class Info : BasicScreen
 
     private void Profile()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Profile);
     }
 }

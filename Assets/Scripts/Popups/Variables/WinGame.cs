@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,12 +41,16 @@ public class WinGame : BasicPopup
 
     private void Restart()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         Hide();
         PlayManager.CleanGame();
         UIManager.Instance.ShowScreen(ScreenTypes.Game);
     }
     private void Home()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         Hide();
         PlayManager.CleanGame();
         UIManager.Instance.ShowScreen(ScreenTypes.Home);

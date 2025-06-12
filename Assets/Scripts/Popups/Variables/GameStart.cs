@@ -57,6 +57,8 @@ public class GameStart : BasicPopup
 
     private void StartGame()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         Hide();
         UIManager.Instance.ShowScreen(ScreenTypes.Game);
         
@@ -64,6 +66,8 @@ public class GameStart : BasicPopup
 
     private void Buster(int index)
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         BuyBonus buyBonus = (BuyBonus)UIManager.Instance.GetPopup(PopupTypes.BuyBonus);
         buyBonus.Init(busterIages[index], busterTitle[index], index);
         UIManager.Instance.ShowPopup(PopupTypes.BuyBonus);

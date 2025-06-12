@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class Settings : BasicPopup
 {
+    [SerializeField] private AudioSource musicSource;
     public Button music;
     public Button vibro;
     public Button sfx;
@@ -79,13 +80,17 @@ public class Settings : BasicPopup
 
     private void Music()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         if (musicState == 1)
         {
+            musicSource.enabled = false;
             musicState = 0;
             music.GetComponent<Image>().sprite = buttonOff;
         }
         else
         {
+            musicSource.enabled = true;
             musicState = 1;
             music.GetComponent<Image>().sprite = buttonOn;
         }
@@ -93,6 +98,8 @@ public class Settings : BasicPopup
 
     private void Vibro()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         if (vibroState == 1)
         {
             vibroState = 0;
@@ -107,6 +114,8 @@ public class Settings : BasicPopup
 
     private void Sfx()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         if (sfxState == 1)
         {
             sfxState = 0;
@@ -121,6 +130,8 @@ public class Settings : BasicPopup
 
     private void Save()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         PlayerPrefs.SetInt("Music", musicState);
         PlayerPrefs.SetInt("Vibro", vibroState);
         PlayerPrefs.SetInt("Sfx", sfxState);

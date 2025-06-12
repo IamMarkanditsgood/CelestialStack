@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public abstract class BasicPopup : MonoBehaviour
 {
+    public AudioSource audioSource;
     [SerializeField] private GameObject _view;
     [SerializeField] protected PopupTypes _popupType;
     [SerializeField] private Button _closeButton;
@@ -49,6 +50,8 @@ public abstract class BasicPopup : MonoBehaviour
 
     public virtual void ClosePressed()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         Hide();
     }
 

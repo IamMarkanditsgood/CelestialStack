@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Profile : BasicScreen
 {
+    [SerializeField] private AudioSource musicSource;
+    public AudioSource audioSource;
     public Button back;
     public Button info; 
     public Button shop;
@@ -72,10 +74,12 @@ public class Profile : BasicScreen
 
         if (PlayerPrefs.GetInt("Music") == 1)
         {
+            musicSource.enabled = true;
             music.GetComponent<Image>().sprite = buttonOn;
         }
         else
         {
+            musicSource.enabled = false;
             music.GetComponent<Image>().sprite = buttonOff;
         }
 
@@ -99,6 +103,8 @@ public class Profile : BasicScreen
 
     private void Music()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         if (PlayerPrefs.GetInt("Music") == 1)
         {
             PlayerPrefs.SetInt("Music", 0);
@@ -113,6 +119,8 @@ public class Profile : BasicScreen
 
     private void Vibro()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         if (PlayerPrefs.GetInt("Vibro") == 1)
         {
             PlayerPrefs.SetInt("Vibro", 0);
@@ -128,6 +136,8 @@ public class Profile : BasicScreen
     private void Sfx()
     {
         if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
+        if (PlayerPrefs.GetInt("Sfx") == 1)
         {
             PlayerPrefs.SetInt("Sfx", 0);
             sfx.GetComponent<Image>().sprite = buttonOff;
@@ -140,23 +150,33 @@ public class Profile : BasicScreen
     }
     private void Shop()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Shop);
     }
     private void Home()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Home);
     }
     private void Progress()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Progress);
     }
     private void Info()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Info);
     }
 
     private void Back()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Home);
     }
 }

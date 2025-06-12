@@ -40,6 +40,8 @@ public class BuyBonus : BasicPopup
 
     public void Buy()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         int coins = PlayerPrefs.GetInt("Score");
         if (coins >= 500)
         {

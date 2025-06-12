@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Game : BasicScreen
 {
+    public AudioSource audioSource;
+
     public GamePlayManager gamePlayManager;
     public Button back;
     public Button settings;
@@ -63,27 +65,37 @@ public class Game : BasicScreen
     }
     private void Settings()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         Time.timeScale = 0;
         UIManager.Instance.ShowPopup(PopupTypes.Settings);
     }
     private void Back()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         gamePlayManager.CleanGame();
         UIManager.Instance.ShowScreen(ScreenTypes.Home);
     }
 
     private void Freez()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         gamePlayManager.Freez();
     }
 
     private void Slowmo()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         gamePlayManager.SlowMo();
     }
 
     private void Magnet()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         gamePlayManager.Magnet();
     }
 }

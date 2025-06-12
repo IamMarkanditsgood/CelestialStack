@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class GamePlayManager : MonoBehaviour
 {
+    public AudioSource musiSource;
+    public AudioClip gameMusic;
+    public AudioClip mainMusic;
     public Game game;
     public Button mainButton;
     public SpriteRenderer bg;
@@ -54,6 +57,8 @@ public class GamePlayManager : MonoBehaviour
     }
     public void CleanGame()
     {
+        musiSource.clip = mainMusic;
+        musiSource.Play();
         StopAllCoroutines();
         fakePrefab.SetActive(true);
         canPress = false;
@@ -78,6 +83,8 @@ public class GamePlayManager : MonoBehaviour
 
     public void StartGame()
     {
+        musiSource.clip = gameMusic;
+        musiSource.Play();
         Time.timeScale = 1;
         canPress = true;
         canMove = true;

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Progres : BasicScreen
 {
+
+    public AudioSource audioSource;
     public Button back;
     public Button shop;
     public Button profile;
@@ -146,6 +148,8 @@ public class Progres : BasicScreen
 
     private void OpenAchieve(int index)
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         Achievement achievement = (Achievement)UIManager.Instance.GetPopup(PopupTypes.Achieve);
         achievement.Init(index);
         UIManager.Instance.ShowPopup(PopupTypes.Achieve);
@@ -153,18 +157,26 @@ public class Progres : BasicScreen
 
     private void Shop()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Shop);
     }
     private void Profile()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Profile);
     }
     private void Home()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Home);
     }
     private void Back()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Home);
     }
 }

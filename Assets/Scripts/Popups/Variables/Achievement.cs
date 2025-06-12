@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Achievement : BasicPopup
 {
-
+    
     public TMP_Text achieveName;
     public TMP_Text achievementDescription;
     public Image achievementImage;

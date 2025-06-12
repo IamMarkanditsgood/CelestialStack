@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class UIManager: MonoBehaviour
 {
+
+    [SerializeField] private AudioSource musicSource;
     [SerializeField] private BasicScreen[] _screens;
     [SerializeField] private BasicPopup[] _popups;
 
@@ -19,6 +21,15 @@ public class UIManager: MonoBehaviour
 
         InitScreens();
         ShowScreen(ScreenTypes.Home);
+        if (PlayerPrefs.GetInt("Music") == 1)
+        {
+            musicSource.enabled = true;
+        }
+        else
+        {
+            musicSource.enabled = false;
+        }
+
     }
 
     private void InitScreens()

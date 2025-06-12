@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Home : BasicScreen
 {
+    public AudioSource sounds;
     public Button playGame;
     public Button settings;
     public Button shop;
@@ -44,22 +45,32 @@ public class Home : BasicScreen
 
     private void StartGame()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            sounds.Play();
         UIManager.Instance.ShowPopup(PopupTypes.StartGame);
     }
     private void Settings()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            sounds.Play();
         UIManager.Instance.ShowPopup(PopupTypes.Settings);
     }
     private void Shop()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            sounds.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Shop);
     }
     private void Profile()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            sounds.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Profile);
     }
     private void Progress()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            sounds.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Progress);
     }
 

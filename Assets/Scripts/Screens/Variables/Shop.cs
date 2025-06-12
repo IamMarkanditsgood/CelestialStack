@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Shop : BasicScreen
 {
+    public AudioSource audioSource;
     public Button back;
     public Button progress;
     public Button profile;
@@ -66,7 +67,6 @@ public class Shop : BasicScreen
 
     public override void SetScreen()
     {
-   
         string key = "BG" + 0;
         if (!PlayerPrefs.HasKey(key))
         {
@@ -105,6 +105,8 @@ public class Shop : BasicScreen
 
     private void Buy(int index)
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         int coins = PlayerPrefs.GetInt("Score");
         if (coins > 150)
         {
@@ -125,24 +127,34 @@ public class Shop : BasicScreen
 
     private void Select(int index)
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         PlayerPrefs.SetInt("CurrentBG", index);
         SetScreen();
     }
 
     private void Progres()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Progress);
     }
     private void Profile()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Profile);
     }
     private void Home()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Home);
     }
     private void Back()
     {
+        if (PlayerPrefs.GetInt("Sfx") == 1)
+            audioSource.Play();
         UIManager.Instance.ShowScreen(ScreenTypes.Home);
     }
 }
